@@ -33,4 +33,4 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
             New version: ${{ env.VERSION }}
-          reactions: hooray
+          edit-mode: replace
