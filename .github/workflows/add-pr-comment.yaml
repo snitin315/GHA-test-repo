@@ -24,6 +24,7 @@ jobs:
 
       - uses: haya14busa/action-cond@v1
         id: condval
+        if: always()
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
           if_true: "value for pull request event. Build success. version: `${{env.VERSION}}`"
