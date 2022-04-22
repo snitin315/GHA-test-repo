@@ -9,6 +9,9 @@ jobs:
   example_comment_pr:
     runs-on: ubuntu-latest
     steps:
+      - name: Job fail
+        run: |
+          exit 1
       - name: Find Comment
         uses: peter-evans/find-comment@v2
         id: fc
