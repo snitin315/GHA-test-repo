@@ -20,7 +20,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: This comment was written by a bot!
+          body-includes: value for pull request event
 
       - uses: haya14busa/action-cond@v1
         id: condval
