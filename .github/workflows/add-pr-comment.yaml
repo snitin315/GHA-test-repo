@@ -44,7 +44,7 @@ jobs:
                   <td> ${{env.APP_NAME}} </td>
                   <td> ✅ Ready </td>
                   <td> ${{env.VERSION}} </td>
-                  <td>  ${{ github.event.base.sha }} </td>
+                  <td>  ${{ git.commits[git.commits.length - 1].sha}} </td>
                  
               </tbody>
             </table>
