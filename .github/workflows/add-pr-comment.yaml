@@ -13,7 +13,7 @@ jobs:
       - name: Job fail
         id: job-fail
         run: |
-          exit 1 
+          exit 0 
       - name: Find Comment
         if: always()
         uses: peter-evans/find-comment@v2
