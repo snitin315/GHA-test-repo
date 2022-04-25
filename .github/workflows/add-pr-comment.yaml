@@ -3,7 +3,8 @@ on:
   pull_request:
 
 env:
-  VERSION: xxxxx12345-version
+  VERSION: xxxxx12345-new-version
+  APP_NAME: universe-app
 
 jobs:
   example_comment_pr:
@@ -12,7 +13,7 @@ jobs:
       - name: Job fail
         id: job-fail
         run: |
-          exit 1
+          exit 0 
       - name: Find Comment
         if: always()
         uses: peter-evans/find-comment@v2
@@ -20,15 +21,51 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: pull request event
+          body-includes: latest updates on your project
 
       - uses: haya14busa/action-cond@v1
         id: condval
         if: always()
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
-          if_true: "value for pull request event. Build success. version: `${{env.VERSION}}`"
-          if_false: "value for non pull request event. Build failed. version: `${{env.VERSION}}`"
+          if_true: >
+            **The latest updates on your project**<br>
+            <table class="tg">
+              <thead>
+                <tr>
+                  <th > App Name</th>
+                  <th> Build Status</th>
+                  <th> Build Version</th>
+                  <th> Build Commit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> ${{env.APP_NAME}} </td>
+                  <td> ✅ Ready </td>
+                  <td> ${{env.VERSION}} </td>
+                  <td>  ${{ github.event.pull_request.head.sha }} </td>
+                 
+              </tbody>
+            </table>
+
+          if_false: >
+            **The latest updates on your project**<br>
+            <table class="tg">
+              <thead>
+                <tr>
+                  <th > App Name</th>
+                  <th> Build Status</th>
+                  <th> Version</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> ${{env.APP_NAME}} </td>
+                  <td> ❌ Failed </td>
+                  <td> ${{env.VERSION}} </td>
+              </tbody>
+            </table>
 
       - name: Create comment
         if: always() && steps.fc.outputs.comment-id == ''
