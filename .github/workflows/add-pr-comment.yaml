@@ -20,7 +20,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: pull request event
+          body-includes: Docker build status
 
       - uses: haya14busa/action-cond@v1
         id: condval
