@@ -4,6 +4,7 @@ on:
 
 env:
   VERSION: xxxxx12345-new-version
+  APP_NAME: universe-app
 
 jobs:
   example_comment_pr:
@@ -20,15 +21,24 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: Docker build status
+          body-includes: latest updates on your project
 
       - uses: haya14busa/action-cond@v1
         id: condval
         if: always()
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
-          if_true: "**Docker build status**: ✅ Ready.\n **Docker build version**: `${{env.VERSION}}`"
-          if_false: "**Docker build status**: ❌ Failed.\n **Docker build version**: `${{env.VERSION}}`"
+          if_true: >
+            **The latest updates on your project**
+            |Name|Build Status|Version|  
+            |---|---|---|
+            |`${{env.APP_NAME}}`| ✅ Ready|  `${{env.VERSION}}` |
+
+          if_false: >
+            **The latest updates on your project**
+            |Name|Build Status|Version|  
+            |---|---|---|
+            |`${{env.APP_NAME}}`| ❌ Failed|  `${{env.VERSION}}` |
 
       - name: Create comment
         if: always() && steps.fc.outputs.comment-id == ''
