@@ -1,3 +1,3 @@
 # GHA-test-repo
-Test github actions here another
+Test github actions here test
 
