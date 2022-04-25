@@ -29,16 +29,16 @@ jobs:
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
           if_true: >
-            **The latest updates on your project**\n
-            |Name|Build Status|Version|\n
-            |---|---|---|\n
-            |`${{env.APP_NAME}}`| ✅ Ready|  `${{env.VERSION}}` |\n
+            **The latest updates on your project**<br>
+            |Name|Build Status|Version|<br>
+            |---|---|---|<br>
+            |`${{env.APP_NAME}}`| ✅ Ready|  `${{env.VERSION}}` |<br>
 
           if_false: >
-            **The latest updates on your project**\n
-            |Name|Build Status|Version|\n
-            |---|---|---|\n
-            |`${{env.APP_NAME}}`| ❌ Failed|  `${{env.VERSION}}` |\n
+            **The latest updates on your project**<br>
+            |Name|Build Status|Version|<br>
+            |---|---|---|<br>
+            |`${{env.APP_NAME}}`| ❌ Failed|  `${{env.VERSION}}` |<br>
 
       - name: Create comment
         if: always() && steps.fc.outputs.comment-id == ''
