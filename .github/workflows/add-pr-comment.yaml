@@ -35,7 +35,8 @@ jobs:
                 <tr>
                   <th > App Name</th>
                   <th> Build Status</th>
-                  <th> Version</th>
+                  <th> Build Version</th>
+                  <th> Build Commit</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,6 +44,8 @@ jobs:
                   <td> ${{env.APP_NAME}} </td>
                   <td> ✅ Ready </td>
                   <td> ${{env.VERSION}} </td>
+                  <td>  ${GITHUB_SHA} </td>
+                 
               </tbody>
             </table>
 
