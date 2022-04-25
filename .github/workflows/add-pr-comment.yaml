@@ -29,7 +29,7 @@ jobs:
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
           if_true: >
-            **The latest updates on your project**<br>
+            **The latest updates on your project**
             <table class="tg">
               <thead>
                 <tr>
@@ -45,12 +45,11 @@ jobs:
                   <td> ✅ Ready </td>
                   <td> ${{env.VERSION}} </td>
                   <td>  ${{ github.event.pull_request.head.sha }} </td>
-                 
               </tbody>
             </table>
 
           if_false: >
-            **The latest updates on your project**<br>
+            **The latest updates on your project**
             <table class="tg">
               <thead>
                 <tr>
