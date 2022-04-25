@@ -27,8 +27,8 @@ jobs:
         if: always()
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
-          if_true: "value for pull request event. Build success. version: `${{env.VERSION}}`"
-          if_false: "value for non pull request event. Build failed. version: `${{env.VERSION}}`"
+          if_true: "**Docker build status**: ✅ Ready.\n **Docker build version**: `${{env.VERSION}}`"
+          if_false: "**Docker build status**: ❌ Failed.\n **Docker build version**: `${{env.VERSION}}`"
 
       - name: Create comment
         if: always() && steps.fc.outputs.comment-id == ''
