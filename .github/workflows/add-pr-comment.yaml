@@ -9,28 +9,39 @@ jobs:
   example_comment_pr:
     runs-on: ubuntu-latest
     steps:
+      - name: Job fail
+        id: job-fail
+        run: |
+          exit 1
       - name: Find Comment
+        if: always()
         uses: peter-evans/find-comment@v2
         id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: This comment was written by a bot!
+          body-includes: pull request event
+
+      - uses: haya14busa/action-cond@v1
+        id: condval
+        if: always()
+        with:
+          cond: ${{ steps.job-fail.outcome == 'success' }}
+          if_true: "value for pull request event. Build success. version: `${{env.VERSION}}`"
+          if_false: "value for non pull request event. Build failed. version: `${{env.VERSION}}`"
 
       - name: Create comment
-        if: steps.fc.outputs.comment-id == ''
+        if: always() && steps.fc.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            This comment was written by a bot! version: ${{ env.VERSION }}
+          body: ${{ steps.condval.outputs.value }}
           reactions: rocket
 
       - name: Update comment
-        if: steps.fc.outputs.comment-id != ''
+        if: always() && steps.fc.outputs.comment-id != ''
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
-          body: |
-            New version: ${{ env.VERSION }}
+          body: ${{ steps.condval.outputs.value }}
           edit-mode: replace
