@@ -28,43 +28,44 @@ jobs:
         if: always()
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
-          if_true: >
-            **The latest updates on your project**
-            <table class="tg">
-              <thead>
-                <tr>
-                  <th > App Name</th>
-                  <th> Build Status</th>
-                  <th> Build Version</th>
-                  <th> Build Commit</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td> ${{env.APP_NAME}} </td>
-                  <td> ✅ Ready </td>
-                  <td> ${{env.VERSION}} </td>
-                  <td>  ${{ github.event.pull_request.head.sha }} </td>
-              </tbody>
-            </table>
-
-          if_false: >
-            **The latest updates on your project**
-            <table class="tg">
-              <thead>
-                <tr>
-                  <th > App Name</th>
-                  <th> Build Status</th>
-                  <th> Version</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td> ${{env.APP_NAME}} </td>
-                  <td> ❌ Failed </td>
-                  <td> ${{env.VERSION}} </td>
-              </tbody>
-            </table>
+          if_true: |-
+              **The latest updates on your project**
+              <table class="tg">
+                <thead>
+                  <tr>
+                    <th > App Name</th>
+                    <th> Build Status</th>
+                    <th> Build Version</th>
+                    <th> Build Commit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> ${{env.APP_NAME}} </td>
+                    <td> ✅ Ready </td>
+                    <td> ${{env.VERSION}} </td>
+                    <td> ${{ github.event.pull_request.head.sha }} </td>
+                </tbody>
+              </table>
+          if_false: |-
+              **The latest updates on your project**
+              <table class="tg">
+                <thead>
+                  <tr>
+                    <th > App Name</th>
+                    <th> Build Status</th>
+                    <th> Build Version</th>
+                    <th> Build Commit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> ${{env.APP_NAME}} </td>
+                    <td> ❌ Failed </td>
+                    <td> ${{env.VERSION}} </td>
+                    <td> ${{ github.event.pull_request.head.sha }} </td>
+                </tbody>
+              </table>
 
       - name: Create comment
         if: always() && steps.fc.outputs.comment-id == ''
