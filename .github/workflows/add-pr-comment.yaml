@@ -44,7 +44,7 @@ jobs:
                   <td> ${{env.APP_NAME}} </td>
                   <td> ✅ Ready </td>
                   <td> ${{env.VERSION}} </td>
-                  <td>  ${{ github.head.sha}} </td>
+                  <td>  ${{ github.event.pull_request.head.sha }} </td>
                  
               </tbody>
             </table>
