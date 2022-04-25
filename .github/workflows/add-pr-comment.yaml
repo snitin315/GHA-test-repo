@@ -3,7 +3,7 @@ on:
   pull_request:
 
 env:
-  VERSION: xxxxx12345-version
+  VERSION: xxxxx12345-new-version
 
 jobs:
   example_comment_pr:
