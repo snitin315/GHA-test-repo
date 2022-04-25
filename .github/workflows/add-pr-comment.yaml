@@ -30,15 +30,39 @@ jobs:
           cond: ${{ steps.job-fail.outcome == 'success' }}
           if_true: >
             **The latest updates on your project**<br>
-            |Name|Build Status|Version|<br>
-            |---|---|---|<br>
-            |`${{env.APP_NAME}}`| ✅ Ready|  `${{env.VERSION}}` |<br>
+            <table class="tg">
+              <thead>
+                <tr>
+                  <th > App Name</th>
+                  <th> Build Status</th>
+                  <th> Version</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> ${{env.APP_NAME}} </td>
+                  <td> ✅ Ready </td>
+                  <td> ${{env.VERSION}} </td>
+              </tbody>
+            </table>
 
           if_false: >
             **The latest updates on your project**<br>
-            |Name|Build Status|Version|<br>
-            |---|---|---|<br>
-            |`${{env.APP_NAME}}`| ❌ Failed|  `${{env.VERSION}}` |<br>
+            <table class="tg">
+              <thead>
+                <tr>
+                  <th > App Name</th>
+                  <th> Build Status</th>
+                  <th> Version</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> ${{env.APP_NAME}} </td>
+                  <td> ❌ Failed </td>
+                  <td> ${{env.VERSION}} </td>
+              </tbody>
+            </table>
 
       - name: Create comment
         if: always() && steps.fc.outputs.comment-id == ''
