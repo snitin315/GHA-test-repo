@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: "14.19"
       - name: npm install
-        run: pwd && ls && npm install
+        run: echo ${{toJson(github)}} && npm install
       - name: npm start
         run: npm start
       - name: Find Comment
