@@ -13,6 +13,6 @@
       <td> {{ .appName }} </td>
       <td> {{ .buildStatus }} </td>
       <td> {{ .buildVersion }} </td>
-      <td> ${{ .buildCommit }} </td>
+      <td> {{ .buildCommit }} </td>
   </tbody>
 </table>
