@@ -4,6 +4,8 @@ on:
     branches:
       - main
   pull_request:
+      branches:
+         - "*"
 
 env:
   VERSION: xxxxx12345-new-version
