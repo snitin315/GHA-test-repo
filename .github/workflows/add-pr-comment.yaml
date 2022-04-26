@@ -1,5 +1,8 @@
 name: Add Comment
 on:
+  push:
+    branches:
+      - master
   pull_request:
 
 env:
@@ -13,9 +16,9 @@ jobs:
       - name: Job fail
         id: job-fail
         run: |
-          exit 0 
+         echo '${{ toJSON(github) }}'
       - name: Find Comment
-        if: always()
+        if: always() && github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v2
         id: fc
         with:
@@ -25,50 +28,50 @@ jobs:
 
       - uses: haya14busa/action-cond@v1
         id: condval
-        if: always()
+        if: always() && github.event_name == 'pull_request'
         with:
           cond: ${{ steps.job-fail.outcome == 'success' }}
-          if_true: >
-            **The latest updates on your project**<br>
-            <table class="tg">
-              <thead>
-                <tr>
-                  <th > App Name</th>
-                  <th> Build Status</th>
-                  <th> Build Version</th>
-                  <th> Build Commit</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td> ${{env.APP_NAME}} </td>
-                  <td> ✅ Ready </td>
-                  <td> ${{env.VERSION}} </td>
-                  <td>  ${{ github.event.pull_request.head.sha }} </td>
-                 
-              </tbody>
-            </table>
-
-          if_false: >
-            **The latest updates on your project**<br>
-            <table class="tg">
-              <thead>
-                <tr>
-                  <th > App Name</th>
-                  <th> Build Status</th>
-                  <th> Version</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td> ${{env.APP_NAME}} </td>
-                  <td> ❌ Failed </td>
-                  <td> ${{env.VERSION}} </td>
-              </tbody>
-            </table>
+          if_true: |-
+              **The latest updates on your project**
+              <table class="tg">
+                <thead>
+                  <tr>
+                    <th > App Name</th>
+                    <th> Build Status</th>
+                    <th> Build Version</th>
+                    <th> Build Commit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> ${{env.APP_NAME}} </td>
+                    <td> ✅ Ready </td>
+                    <td> ${{env.VERSION}} </td>
+                    <td> ${{ github.event.pull_request.head.sha }} </td>
+                </tbody>
+              </table>
+          if_false: |-
+              **The latest updates on your project**
+              <table class="tg">
+                <thead>
+                  <tr>
+                    <th > App Name</th>
+                    <th> Build Status</th>
+                    <th> Build Version</th>
+                    <th> Build Commit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> ${{env.APP_NAME}} </td>
+                    <td> ❌ Failed </td>
+                    <td> ${{env.VERSION}} </td>
+                    <td> ${{ github.event.pull_request.head.sha }} </td>
+                </tbody>
+              </table>
 
       - name: Create comment
-        if: always() && steps.fc.outputs.comment-id == ''
+        if: always() && github.event_name == 'pull_request' && steps.fc.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -76,7 +79,7 @@ jobs:
           reactions: rocket
 
       - name: Update comment
-        if: always() && steps.fc.outputs.comment-id != ''
+        if: always() && github.event_name == 'pull_request' && steps.fc.outputs.comment-id != ''
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
