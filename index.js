@@ -2,4 +2,4 @@ const gitHubActions = require('@actions/github');
 
 const context = gitHubActions.context;
 console.log(context);
-console.log(context.payload.commits);
+console.log(context.payload.pull_request.user);
