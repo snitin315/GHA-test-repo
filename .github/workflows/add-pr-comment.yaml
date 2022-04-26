@@ -33,42 +33,14 @@ jobs:
           cond: ${{ steps.job-fail.outcome == 'success' }}
           if_true: |-
               **The latest updates on your project**
-              <table class="tg">
-                <thead>
-                  <tr>
-                    <th > App Name</th>
-                    <th> Build Status</th>
-                    <th> Build Version</th>
-                    <th> Build Commit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td> ${{env.APP_NAME}} </td>
-                    <td> ✅ Ready </td>
-                    <td> ${{env.VERSION}} </td>
-                    <td> ${{ github.event.pull_request.head.sha }} </td>
-                </tbody>
-              </table>
+              |App Name|Build Status|Build Version|Build Commit|
+              |---|---|---|---|
+              |${{env.APP_NAME}}|✅ Ready|${{env.VERSION}}|${{ github.event.pull_request.head.sha }}|
           if_false: |-
               **The latest updates on your project**
-              <table class="tg">
-                <thead>
-                  <tr>
-                    <th > App Name</th>
-                    <th> Build Status</th>
-                    <th> Build Version</th>
-                    <th> Build Commit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td> ${{env.APP_NAME}} </td>
-                    <td> ❌ Failed </td>
-                    <td> ${{env.VERSION}} </td>
-                    <td> ${{ github.event.pull_request.head.sha }} </td>
-                </tbody>
-              </table>
+              |App Name|Build Status|Build Version|Build Commit|
+              |---|---|---|---|
+              |${{env.APP_NAME}}|❌ Failed|${{env.VERSION}}|${{ github.event.pull_request.head.sha }}|
 
       - name: Create comment
         if: always() && github.event_name == 'pull_request' && steps.fc.outputs.comment-id == ''
