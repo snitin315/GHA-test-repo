@@ -1,5 +1,9 @@
 name: Add Comment
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 env:
   VERSION: xxxxx12345-new-version
