@@ -38,7 +38,7 @@ jobs:
         id: render_template
         uses: chuhlomin/render-template@v1.2
         with:
-          template: .github/comment.md
+          template: comment.md
           vars: |
             buildCommit: ${{ github.event.pull_request.head.sha }}
             buildStatus: ${{ steps.condval.outputs.value }}
