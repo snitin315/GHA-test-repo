@@ -17,6 +17,10 @@ jobs:
         id: job-fail
         run: |
          echo '${{ toJSON(github) }}'
+      - name: npm install
+        run: npm ci
+      - name: npm start
+        run: npm start
       - name: Find Comment
         if: always() && github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v2
