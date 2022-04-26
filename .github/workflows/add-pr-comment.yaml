@@ -17,6 +17,9 @@ jobs:
         id: job-fail
         run: |
          echo '${{ toJSON(github) }}'
+      - name: node index.js
+        run: |
+         node index.js
       - name: Find Comment
         if: always() && github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v2
