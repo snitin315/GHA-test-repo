@@ -4,7 +4,7 @@
     <tr>
       <th> App Name </th>
       <th> Build Status </th>
-      <th> Build Version </th>
+      <th> Build Version    </th>
       <th> Build Commit </th>
     </tr>
   </thead>

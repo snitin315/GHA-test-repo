@@ -1,9 +1,5 @@
 name: Add Comment
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push, pull_request]
 
 env:
   VERSION: xxxxx12345-new-version
@@ -16,9 +12,15 @@ jobs:
       - name: Job fail
         id: job-fail
         run: |
-         echo '${{ toJSON(github) }}'
+         echo '${{ toJSON(github) }}' && exit 0
+      - name: Checkout Codebase
+        uses: actions/checkout@v2
+      - name: Setup Node v14.19
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.19"
       - name: npm install
-        run: npm ci
+        run: npm install
       - name: npm start
         run: npm start
       - name: Find Comment
