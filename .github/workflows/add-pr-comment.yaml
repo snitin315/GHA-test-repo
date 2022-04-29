@@ -12,7 +12,7 @@ jobs:
       - name: Job fail
         id: job-fail
         run: |
-         echo '${{ toJSON(github) }}' && exit 1
+         echo '${{ toJSON(github) }}' && exit 0
       - name: Checkout Codebase
         uses: actions/checkout@v2
       - name: Setup Node v14.19
