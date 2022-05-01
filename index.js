@@ -1,7 +1,7 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
-console.log(gitHubActions.context);
+console.log(process.env);
 
 // const getCommentBody = (isBuildSuccessful) => {
 //   const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
