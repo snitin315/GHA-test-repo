@@ -48,7 +48,7 @@ async function getBuildInfo() {
       issueNumber: process.env.ISSUE_NUMBER,
     };
 
-    if (!inputs.token || !inputs.buildStatus) {
+    if (typeof inputs.token === "undefined" || typeof inputs.buildStatus === "undefined") {
       gitHubActionsCore.setFailed("Missing either 'TOKEN' or 'BUILD_STATUS'.");
       return;
     }
