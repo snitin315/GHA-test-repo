@@ -1,12 +1,12 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
-console.log(process.env);
+console.log(gitHubActions.context);
 
 const getCommentBody = (isBuildSuccessful) => {
   const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
 
-  return `**The latest updates on your project.**\n|App Name|Build Status|Build Version|Build Commit|\n|---|---|---|---|\n|${process.env.APP_NAME}}|${buildStatus}|${process.env.VERSION}|${gitHubActions.context.after}|`;
+  return `**The latest updates on your project.**\n|App Name|Build Status|Build Version|Build Commit|\n|---|---|---|---|\n|${process.env.APP_NAME}|${buildStatus}|${process.env.VERSION}|${gitHubActions.context.after}|`;
 };
 
 function findCommentPredicate(inputs, comment) {
