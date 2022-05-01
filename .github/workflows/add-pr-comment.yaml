@@ -4,8 +4,6 @@ on: [push, pull_request]
 env:
   VERSION: xxxxx12345-new-version
   APP_NAME: universe-app
-  issue_number: ${{ github.event.pull_request.number }}
-  comment-author: 'github-actions[bot]'
 
 jobs:
   example_comment_pr:
@@ -25,4 +23,7 @@ jobs:
       - name: npm start
         run: npm start
         env:
-          body_includes: latest updates on your project
+          BUILD_STATUS: latest updates on your project
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.pull_request.number }}
+
