@@ -42,7 +42,7 @@ async function getBuildInfo() {
     const inputs = {
       token: process.env.TOKEN,
       buildStatus: process.env.BUILD_STATUS === 'true',
-      issueNumber: process.env.ISSUE_NUMBER,
+      issueNumber: Number(process.env.ISSUE_NUMBER),
     };
 
     if (typeof inputs.token === "undefined" || typeof inputs.buildStatus === "undefined") {
