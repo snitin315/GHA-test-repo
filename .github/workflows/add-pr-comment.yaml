@@ -22,10 +22,10 @@ jobs:
         id: job-fail
         run: exit 1
       - name: npm start
-        if: always()
+        if: always() && github.event_name == 'pull_request'
         run: npm start
         env:
-          BUILD_STATUS: latest updates on your project
+          BUILD_STATUS: ${{ steps.job-fail.outcome == 'success' }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.pull_request.number }}
 
