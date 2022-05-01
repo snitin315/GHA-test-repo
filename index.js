@@ -6,10 +6,7 @@ console.log(process.env);
 const getCommentBody = (isBuildSuccessful) => {
   const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
 
-  return `**The latest updates on your project.**
-    |App Name|Build Status|Build Version|Build Commit|
-    |---|---|---|---|
-    |\${{env.APP_NAME}}|${buildStatus}|\${{env.VERSION}}|\${{ github.event.pull_request.head.sha }}|`;
+  return `**The latest updates on your project.**\n|App Name|Build Status|Build Version|Build Commit|\n|---|---|---|---|\n|${process.env.APP_NAME}}|${buildStatus}|${process.env.VERSION}|${gitHubActions.context.after}|`;
 };
 
 function findCommentPredicate(inputs, comment) {
