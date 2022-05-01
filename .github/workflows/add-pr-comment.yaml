@@ -22,7 +22,7 @@ jobs:
         run: npm install
       - name: npm start
         run: npm start
-        with:
+        env:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
           body-includes: latest updates on your project
