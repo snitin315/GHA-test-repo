@@ -43,15 +43,15 @@ async function findComment(inputs) {
 async function getBuildInfo() {
   try {
     const inputs = {
-      token: process.env.ti,
+      token: process.env.TOKEN,
       buildStatus: process.env.BUILD_STATUS,
       issueNumber: process.env.ISSUE_NUMBER,
     };
 
-    if (!(inputs.token && inputs.buildStatus)) {
-      gitHubActionsCore.setFailed("Missing either 'TOKEN' or 'BUILD_STATUS'.");
-      return;
-    }
+    // if (!(inputs.token && inputs.buildStatus)) {
+    //   gitHubActionsCore.setFailed("Missing either 'TOKEN' or 'BUILD_STATUS'.");
+    //   return;
+    // }
     const comment = await findComment(inputs);
     const octokit = gitHubActions.getOctokit(inputs.token);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
