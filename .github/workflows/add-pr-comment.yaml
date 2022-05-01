@@ -9,9 +9,6 @@ jobs:
   example_comment_pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Job fail
-        id: job-fail
-        run: exit 1
       - name: Checkout Codebase
         uses: actions/checkout@v2
       - name: Setup Node v14.19
@@ -19,8 +16,13 @@ jobs:
         with:
           node-version: "14.19"
       - name: npm install
+        if: always()
         run: npm install
+      - name: Job fail
+        id: job-fail
+        run: exit 1
       - name: npm start
+        if: always()
         run: npm start
         env:
           BUILD_STATUS: latest updates on your project
