@@ -12,7 +12,7 @@ jobs:
       - name: Job fail
         id: job-fail
         run: |
-         echo '${{ toJSON(github) }}' && exit 0
+        exit 0
       - name: Checkout Codebase
         uses: actions/checkout@v2
       - name: Setup Node v14.19
@@ -23,43 +23,8 @@ jobs:
         run: npm install
       - name: npm start
         run: npm start
-      - name: Find Comment
-        if: always() && github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v2
-        id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
           body-includes: latest updates on your project
-
-      - uses: haya14busa/action-cond@v1
-        id: condval
-        if: always() && github.event_name == 'pull_request'
-        with:
-          cond: ${{ steps.job-fail.outcome == 'success' }}
-          if_true: |-
-              **The latest updates on your project**
-              |App Name|Build Status|Build Version|Build Commit|
-              |---|---|---|---|
-              |${{env.APP_NAME}}|✅ Ready|${{env.VERSION}}|${{ github.event.pull_request.head.sha }}|
-          if_false: |-
-              **The latest updates on your project**
-              |App Name|Build Status|Build Version|Build Commit|
-              |---|---|---|---|
-              |${{env.APP_NAME}}|❌ Failed|${{env.VERSION}}|${{ github.event.pull_request.head.sha }}|
-
-      - name: Create comment
-        if: always() && github.event_name == 'pull_request' && steps.fc.outputs.comment-id == ''
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: ${{ steps.condval.outputs.value }}
-          reactions: rocket
-
-      - name: Update comment
-        if: always() && github.event_name == 'pull_request' && steps.fc.outputs.comment-id != ''
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          body: ${{ steps.condval.outputs.value }}
-          edit-mode: replace
+          build-status: ${{ steps.job-fail.outcome == 'success' }}

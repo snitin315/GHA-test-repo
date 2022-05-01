@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/snitin315/GHA-test-repo#readme",
   "dependencies": {
-    "@actions/github": "4.0.0"
+    "@actions/github": "4.0.0",
+    "@actions/core": "1.2.6"
   }
 }

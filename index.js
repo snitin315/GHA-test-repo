@@ -1,8 +1,90 @@
 const gitHubActions = require('@actions/github');
+const gitHubActionsCore = require('@actions/core');
 
-const context = gitHubActions.context;
-console.log("event", context.eventName);
-console.log(context);
-console.log(context.payload.pull_request?.base);
-console.log("commits",context.payload.commits);
-console.log("refff",context.payload.ref);
+console.log(gitHubActions.context);
+
+const getCommentBody = (isBuildSuccessful) => {
+  const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
+
+  return `**The latest updates on your project.**
+    |App Name|Build Status|Build Version|Build Commit|
+    |---|---|---|---|
+    |\${{env.APP_NAME}}|${buildStatus}|\${{env.VERSION}}|\${{ github.event.pull_request.head.sha }}|`;
+};
+
+function findCommentPredicate(inputs, comment) {
+  return (
+    (inputs.commentAuthor && comment.user ? comment.user.login === inputs.commentAuthor : true) &&
+    (inputs.bodyIncludes && comment.body ? comment.body.includes(inputs.bodyIncludes) : true)
+  );
+}
+
+async function findComment(inputs) {
+  const octokit = gitHubActions.getOctokit(inputs.token);
+  const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+
+  const parameters = {
+    owner,
+    repo,
+    issue_number: inputs.issueNumber,
+  };
+
+  for await (const { data: comments } of octokit.paginate.iterator(
+    octokit.rest.issues.listComments,
+    parameters,
+  )) {
+    // Search each page for the comment
+    const comment = comments.find((comment) => findCommentPredicate(inputs, comment));
+    if (comment) return comment;
+  }
+  return undefined;
+}
+
+async function getBuildInfo() {
+  try {
+    const inputs = {
+      token: gitHubActionsCore.getInput('token'),
+      repository: gitHubActionsCore.getInput('repository'),
+      issueNumber: Number(gitHubActionsCore.getInput('issue-number')),
+      buildStatus: Boolean(gitHubActionsCore.getInput('build-status')),
+      commentAuthor: gitHubActionsCore.getInput('comment-author'),
+      bodyIncludes: gitHubActionsCore.getInput('body-includes'),
+      direction: gitHubActionsCore.getInput('direction'),
+    };
+
+    if (!(inputs.issueNumber && inputs.buildStatus)) {
+      gitHubActionsCore.setFailed("Missing either 'issue-number' or 'build-status'.");
+      return;
+    }
+    const comment = await findComment(inputs);
+    const octokit = gitHubActions.getOctokit(inputs.token);
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+
+    if (comment) {
+      const commentId = comment.id.toString();
+      await octokit.rest.issues.updateComment({
+        owner,
+        repo,
+        comment_id: commentId,
+        body: getCommentBody(inputs.buildStatus),
+      });
+      gitHubActionsCore.info(`Updated comment id '${commentId}'.`);
+      gitHubActionsCore.setOutput('comment-id', commentId);
+    } else {
+      const { data: commentData } = await octokit.rest.issues.createComment({
+        owner,
+        repo,
+        issue_number: inputs.issueNumber,
+        body: getCommentBody(inputs.buildStatus),
+      });
+      gitHubActionsCore.info(
+        `Created comment id '${commentData.id}' on issue '${inputs.issueNumber}'.`,
+      );
+      gitHubActionsCore.setOutput('comment-id', commentData.id);
+    }
+  } catch (error) {
+    gitHubActionsCore.setFailed(error.message);
+  }
+}
+
+getBuildInfo();
