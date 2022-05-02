@@ -1,6 +1,8 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
+console.log(gitHubActions.context);
+
 const getCommentBody = (isBuildSuccessful) => {
   const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
 
@@ -87,4 +89,4 @@ async function getBuildInfo() {
   }
 }
 
-getBuildInfo();
+//getBuildInfo();
