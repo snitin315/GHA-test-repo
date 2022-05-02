@@ -20,7 +20,7 @@ jobs:
         run: npm install
       - name: Job fail
         id: job-fail
-        run: exit 1
+        run: exit 0
       - name: npm start
         if: always() && github.event_name == 'pull_request'
         run: npm start
