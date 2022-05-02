@@ -1,12 +1,17 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
-console.log(gitHubActions.context);
-
 const getCommentBody = (isBuildSuccessful) => {
   const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
 
-  return `**The latest updates on your project.**\n|App Name|Build Status|Build Version|Build Commit|\n|---|---|---|---|\n|${process.env.APP_NAME}|${buildStatus}|${process.env.VERSION}|${gitHubActions.context.payload.after}|`;
+  const commentBody = [
+    '**The latest updates on your project.**',
+    '|App Name|Build Status|Build Version|Build Commit|',
+    '|---|---|---|---|',
+    `|${process.env.APP_NAME}|${buildStatus}|${process.env.VERSION}|${gitHubActions.context.payload.after}|`,
+  ];
+
+  return commentBody.join('\n');
 };
 
 function findCommentPredicate(inputs, comment) {
@@ -31,8 +36,8 @@ async function findComment(inputs) {
     parameters,
   )) {
     // Search each page for the comment
-    const comment = comments.find((comment) => findCommentPredicate(inputs, comment));
-    if (comment) return comment;
+    const requiredComment = comments.find((comment) => findCommentPredicate(inputs, comment));
+    if (requiredComment) return requiredComment;
   }
   return undefined;
 }
@@ -42,13 +47,15 @@ async function getBuildInfo() {
     const inputs = {
       token: process.env.TOKEN,
       buildStatus: process.env.BUILD_STATUS === 'true',
-      issueNumber: Number(process.env.ISSUE_NUMBER),
+      issueNumber: process.env.ISSUE_NUMBER || gitHubActions.context.payload.number,
+      bodyIncludes: 'The latest updates on your project',
     };
 
-    if (typeof inputs.token === "undefined" || typeof inputs.buildStatus === "undefined") {
+    if (typeof inputs.token === 'undefined' || typeof inputs.buildStatus === 'undefined') {
       gitHubActionsCore.setFailed("Missing either 'TOKEN' or 'BUILD_STATUS'.");
       return;
     }
+
     const comment = await findComment(inputs);
     const octokit = gitHubActions.getOctokit(inputs.token);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
