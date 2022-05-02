@@ -22,7 +22,7 @@ jobs:
         id: job-fail
         run: exit 0
       - name: npm start
-        if: always() && github.event_name == 'pull_request'
+        if: always()
         run: npm start
         env:
           BUILD_STATUS: ${{ steps.job-fail.outcome == 'success' }}
