@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 env:
   VERSION: xxxxx12345-new-version
-  APP_NAME: universe-app
+  APP_NAME: universe-app-another
 
 jobs:
   example_comment_pr:
