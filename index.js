@@ -43,7 +43,7 @@ async function findComment(inputs) {
 async function getBuildInfo() {
   try {
     const inputs = {
-      token: process.env.TOKEN,
+      token: process.env.GITHUB_TOKEN,
       buildStatus: process.env.BUILD_STATUS,
       issueNumber: process.env.ISSUE_NUMBER || gitHubActions.context.payload.number,
     };
