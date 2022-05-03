@@ -1,7 +1,7 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
-console.log(gitHubActionsCore.context);
+console.log(gitHubActions.context);
 const getCommentBody = (isBuildSuccessful) => {
   const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
   const buildCommit = gitHubActions.context.payload.after || gitHubActions.context.sha;
@@ -91,7 +91,7 @@ async function getBuildInfo() {
   }
 }
 
-if (gitHubActionsCore.context.eventName === "pull_request") {
+if (gitHubActions.context.eventName === "pull_request") {
   getBuildInfo();
 }
 
