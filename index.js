@@ -1,16 +1,15 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
-console.log(gitHubActions.context);
-
 const getCommentBody = (isBuildSuccessful) => {
   const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
+  const buildCommit = gitHubActions.context.payload.after || gitHubActions.context.sha;
 
   const commentBody = [
     '**The latest updates on your project.**',
     '|App Name|Build Status|Build Version|Build Commit|',
     '|---|---|---|---|',
-    `|${process.env.APP_NAME}|${buildStatus}|${process.env.VERSION}|${gitHubActions.context.payload.after}|`,
+    `|${process.env.APP_NAME}|${buildStatus}|${process.env.VERSION}|${buildCommit}|`,
   ];
 
   return commentBody.join('\n');
@@ -19,7 +18,9 @@ const getCommentBody = (isBuildSuccessful) => {
 function findCommentPredicate(inputs, comment) {
   return (
     (inputs.commentAuthor && comment.user ? comment.user.login === inputs.commentAuthor : true) &&
-    (inputs.bodyIncludes && comment.body ? comment.body.includes(inputs.bodyIncludes) : true)
+    (inputs.bodyIncludes && comment.body
+      ? comment.body.includes(inputs.bodyIncludes) && comment.body.includes(process.env.APP_NAME)
+      : true)
   );
 }
 
@@ -89,4 +90,7 @@ async function getBuildInfo() {
   }
 }
 
-//getBuildInfo();
+if (gitHubActionsCore.eventName === "pull_request") {
+  getBuildInfo();
+}
+
