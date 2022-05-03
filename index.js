@@ -1,8 +1,8 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
-const getCommentBody = (isBuildSuccessful) => {
-  const buildStatus = isBuildSuccessful ? '✅ Ready' : '❌ Failed';
+const getCommentBody = (status) => {
+  const buildStatus = status === 'success' ? '✅ Ready' : '❌ Failed';
   const buildCommit = gitHubActions.context.payload.after || gitHubActions.context.sha;
 
   const commentBody = [
@@ -32,7 +32,8 @@ async function findComment(inputs) {
     // Search each page for the comment
     const requiredComment = comments.find(
       (comment) =>
-        comment.body.includes('The latest updates on your project') && comment.body.includes(process.env.APP_NAME),
+        comment.body.includes('The latest updates on your project') &&
+        comment.body.includes(process.env.APP_NAME),
     );
     if (requiredComment) return requiredComment;
   }
@@ -43,11 +44,11 @@ async function getBuildInfo() {
   try {
     const inputs = {
       token: process.env.TOKEN,
-      buildStatus: process.env.BUILD_STATUS === 'true',
+      buildStatus: process.env.BUILD_STATUS,
       issueNumber: process.env.ISSUE_NUMBER || gitHubActions.context.payload.number,
     };
 
-    if (typeof inputs.buildStatus === 'undefined') {
+    if (typeof inputs.token === 'undefined' || typeof inputs.buildStatus === 'undefined') {
       gitHubActionsCore.setFailed("Missing either 'TOKEN' or 'BUILD_STATUS'.");
       return;
     }
