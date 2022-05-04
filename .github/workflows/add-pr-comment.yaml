@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 env:
   VERSION: xxxxx12345-new-version
-  APP_NAME: universe-app
+  APP_NAME: universe-app-another-33333
 
 jobs:
   example_comment_pr:
@@ -20,12 +20,12 @@ jobs:
         run: npm install
       - name: Job fail
         id: job-fail
-        run: exit 0
+        run: exit 1
       - name: npm start
         if: always()
         run: npm start
         env:
-          BUILD_STATUS: ${{ steps.job-fail.outcome == 'success' }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUILD_STATUS: ${{ steps.job-fail.outcome }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.pull_request.number }}
 
