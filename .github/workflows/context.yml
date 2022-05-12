@@ -1,0 +1,13 @@
+name: Github Context Dump
+on: [push]
+
+env:
+  VERSION: xxxxx12345-new-version
+  APP_NAME: universe-app-another-33333
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github context
+        run: echo '${{ toJSON(github) }}'
