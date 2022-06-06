@@ -1,18 +1,19 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
+const commitSHA = gitHubActions.context.payload.after || gitHubActions.context.sha;
+
 const getCommentBody = (inputs) => {
   const buildStatus = inputs.buildStatus === 'success' ? '✅ Ready' : '❌ Failed';
-  const buildCommit = gitHubActions.context.payload.after || gitHubActions.context.sha;
 
   const commentBody = [
-    `**Build info for your latest commit ${buildCommit}:**`,
+    `**Build info for your latest commit ${commitSHA}:**`,
     inputs.buildStatus === 'success'
       ? 'Use the build version from below to deploy your code on Spinnaker CD pipeline.'
       : '',
     '|App Name|Build Status|Build Version (Use for Deployment)|Commit|',
     '|---|---|---|---|',
-    `|${process.env.APP_NAME}|${buildStatus}|\`${process.env.VERSION}\`|${buildCommit}|`,
+    `|${process.env.APP_NAME}|${buildStatus}|\`${process.env.VERSION}\`|${commitSHA}|`,
     '<!-- BUILD_INFO_COMMENT -->',
   ];
 
@@ -62,21 +63,16 @@ async function getBuildInfo() {
     const pulls = await octokit.request('GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls', {
       owner,
       repo,
-      commit_sha: gitHubActions.context.payload.after || gitHubActions.context.sha
-    })
-    console.log("pull->",pulls);
-    
+      commit_sha: commitSHA,
+    });
     if (pulls.data.length === 0) {
-      gitHubActionsCore.info(
-        `[universe-pack] No pull requests found.`,
-      );
-      process.exit(0);
+      gitHubActionsCore.info(`[universe-pack] No pull requests are associated with this commit.`);
+      return;
     } else {
       inputs.issueNumber = pulls.data[pulls.data.length - 1].number;
     }
 
     const comment = await getComment(inputs);
-  
     if (comment) {
       const commentId = comment.id.toString();
       await octokit.rest.issues.updateComment({
