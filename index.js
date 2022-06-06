@@ -72,7 +72,7 @@ async function getBuildInfo() {
       gitHubActionsCore.info(
         `[universe-pack] No pull requests found.`,
       );
-      process.exit(0);
+      return;
     }
 
     const comment = await getComment(inputs);
