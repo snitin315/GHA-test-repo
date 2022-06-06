@@ -48,7 +48,6 @@ async function getBuildInfo() {
     const inputs = {
       token: process.env.GITHUB_ACCESS_TOKEN,
       buildStatus: process.env.BUILD_STATUS,
-      issueNumber: process.env.PR_NUMBER || gitHubActions.context.payload.number,
     };
 
     if (typeof inputs.token === 'undefined' || typeof inputs.buildStatus === 'undefined') {
@@ -65,7 +64,6 @@ async function getBuildInfo() {
       repo,
       commit_sha: gitHubActions.context.payload.after || gitHubActions.context.sha
     })
-    
     console.log("pull->",pulls);
     
     if (pulls.data.length === 0) {
@@ -73,6 +71,8 @@ async function getBuildInfo() {
         `[universe-pack] No pull requests found.`,
       );
       process.exit(0);
+    } else {
+      inputs.issueNumber = pulls.data[pulls.data.length - 1].number;
     }
 
     const comment = await getComment(inputs);
