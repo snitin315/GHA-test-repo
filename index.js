@@ -67,6 +67,13 @@ async function getBuildInfo() {
     })
     
     console.log("pull->",pulls);
+    
+    if (pulls.data.length === 0) {
+      gitHubActionsCore.info(
+        `[universe-pack] No pull requests found.`,
+      );
+      process.exit(0);
+    }
 
     const comment = await getComment(inputs);
   
