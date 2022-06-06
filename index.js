@@ -69,6 +69,7 @@ async function getBuildInfo() {
     })
     
     console.log("pull->",pulls);
+  
     if (comment) {
       const commentId = comment.id.toString();
       await octokit.rest.issues.updateComment({

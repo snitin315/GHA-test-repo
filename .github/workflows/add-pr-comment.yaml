@@ -26,6 +26,6 @@ jobs:
         run: npm start
         env:
           BUILD_STATUS: ${{ steps.job-fail.outcome }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.pull_request.number }}
 
