@@ -3,22 +3,25 @@ const gitHubActionsCore = require('@actions/core');
 
 //console.log(gitHubActions.context);
 
-const inputs = {
-  token: process.env.GITHUB_TOKEN,
-  buildStatus: process.env.BUILD_STATUS,
-  issueNumber: process.env.ISSUE_NUMBER || gitHubActions.context.payload.number,
+async function getBuildInfo() {
+  const inputs = {
+    token: process.env.GITHUB_TOKEN,
+    buildStatus: process.env.BUILD_STATUS,
+    issueNumber: process.env.ISSUE_NUMBER || gitHubActions.context.payload.number,
+  }
+  
+  const octokit = gitHubActions.getOctokit(inputs.token);
+  const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+  const pulls = await octokit.request('GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls', {
+    owner,
+    repo,
+    commit_sha: gitHubActions.context.payload.after || gitHubActions.context.sha
+  })
+  
+  console.log("pulls->", pulls)
 }
 
-const octokit = gitHubActions.getOctokit(inputs.token);
-const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-const pulls = await octokit.request('GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls', {
-  owner,
-  repo,
-  commit_sha: gitHubActions.context.payload.after || gitHubActions.context.sha
-})
-
-console.log("pulls->", pulls)
-
+getBuildInfo();
 // const getCommentBody = (status) => {
 //   const buildStatus = status === 'success' ? '✅ Ready' : '❌ Failed';
 //   const buildCommit = gitHubActions.context.payload.after || gitHubActions.context.sha;
