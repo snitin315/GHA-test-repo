@@ -58,10 +58,6 @@ async function getBuildInfo() {
       return;
     }
 
-    const comment = await getComment(inputs);
-    const octokit = gitHubActions.getOctokit(inputs.token);
-    const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-
     const pulls = await octokit.request('GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls', {
       owner,
       repo,
@@ -69,6 +65,10 @@ async function getBuildInfo() {
     })
     
     console.log("pull->",pulls);
+
+    const comment = await getComment(inputs);
+    const octokit = gitHubActions.getOctokit(inputs.token);
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
   
     if (comment) {
       const commentId = comment.id.toString();
