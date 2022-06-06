@@ -1,7 +1,7 @@
 const gitHubActions = require('@actions/github');
 const gitHubActionsCore = require('@actions/core');
 
-console.log(gitHubActions.context);
+//console.log(gitHubActions.context);
 
 const getCommentBody = (status) => {
   const buildStatus = status === 'success' ? '✅ Ready' : '❌ Failed';
@@ -59,6 +59,13 @@ async function getBuildInfo() {
     const octokit = gitHubActions.getOctokit(inputs.token);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 
+    const pulls = await octokit.request('GET /repos/{owner}/{repo}/commits/{commit_sha}/pulls', {
+      owner: 'OWNER',
+      repo: 'REPO',
+      commit_sha: gitHubActions.context.payload.after || gitHubActions.context.sha
+    })
+
+    console.log("pulls->", pulls)
     if (comment) {
       const commentId = comment.id.toString();
       await octokit.rest.issues.updateComment({
