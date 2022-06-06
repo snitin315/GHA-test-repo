@@ -1,5 +1,5 @@
 name: Add Comment
-on: [push, pull_request]
+on: push
 
 env:
   VERSION: xxxxx12345-new-version
