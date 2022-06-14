@@ -1,0 +1,25 @@
+name: Commit
+on: [push]
+
+env:
+  VERSION: xxxxx12345-new-version
+  APP_NAME: universe-app-another-33333
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v2
+      - name: Setup Node v14.19
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.19"
+      - name: create file
+        run: node test.js
+      - name: Commit updated
+        uses: EndBug/add-and-commit@v9.0.0
+        with:
+          message: "test: commit"
+          author_name: rzpcibot
+          author_email: 64553331+rzpcibot@users.noreply.github.com
