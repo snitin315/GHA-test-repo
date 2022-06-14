@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.ref }}
       - name: Setup Node v14.19
         uses: actions/setup-node@v2
         with:
