@@ -1,5 +1,5 @@
 name: Github Context Dump
-on: [push]
+on: [push, pull_request]
 
 env:
   VERSION: xxxxx12345-new-version
