@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Codebase
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.CI_BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.ref }}
       - name: Setup Node v14.19
         uses: actions/setup-node@v2
