@@ -1,5 +1,10 @@
 name: Github Context Dump
-on: [pull_request]
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag name
+        required: true
 
 env:
   VERSION: xxxxx12345-new-version
