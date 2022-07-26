@@ -1,6 +1,6 @@
 {
   "name": "gha-test-repo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Test GitHub actions here",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/snitin315/GHA-test-repo/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "homepage": "https://github.com/snitin315/GHA-test-repo#readme",
   "dependencies": {
