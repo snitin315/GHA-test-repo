@@ -1,6 +1,6 @@
 {
-  "name": "GHA-test-repo",
-  "version": "1.0.0",
+  "name": "gha-test-repo",
+  "version": "1.0.1",
   "description": "Test GitHub actions here",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/snitin315/GHA-test-repo#readme",
   "dependencies": {
+    "@actions/core": "1.2.6",
     "@actions/github": "4.0.0",
-    "@actions/core": "1.2.6"
+    "@changesets/cli": "^2.24.1"
   }
 }
