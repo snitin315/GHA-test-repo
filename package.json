@@ -1,6 +1,6 @@
 {
   "name": "gha-test-repo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Test GitHub actions here",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   "dependencies": {
     "@actions/core": "1.2.6",
     "@actions/github": "4.0.0",
+    "@changesets/changelog-github": "^0.4.6",
     "@changesets/cli": "^2.24.1"
   }
 }
