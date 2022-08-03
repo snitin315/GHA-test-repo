@@ -15,13 +15,12 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ github.event.issue.pull_request.number }}
-          comment-author: changeset-bot
+          issue-number: ${{ github.event.issue.number }}
           body-includes: Click here to learn what changesets are
       - name: Update comment
-        if: steps.fc.outputs.comment-id != ''
+        if: steps.fc.outputs.comment-id == github.event.comment.id
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
-            "[Click here to read our changeset guidelines](https://github.com/razorpay/frontend-universe/blob/master/CONTRIBUTING.md#-writing-a-changeset)"
+            [Click here to read our changeset guidelines](https://github.com/razorpay/frontend-universe/blob/master/CONTRIBUTING.md#-writing-a-changeset).
