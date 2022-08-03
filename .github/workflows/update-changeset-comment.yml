@@ -20,7 +20,7 @@ jobs:
           comment-author: changeset-bot[bot]
           body-includes: Click here to learn what changesets are
       - name: Update comment
-        if: steps.fc.outputs.comment-id == github.event.comment.id
+        if: steps.changeset-comment.outputs.comment-id == github.event.comment.id
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.changeset-comment.outputs.comment-id }}
