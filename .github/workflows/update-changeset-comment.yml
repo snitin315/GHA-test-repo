@@ -20,7 +20,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body-includes: Click here to learn what changesets are
       - name: Update comment
-        if: steps.fc.outputs.comment-id != ''
+        if: steps.fc.outputs.comment-id == github.event.comment.id
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
