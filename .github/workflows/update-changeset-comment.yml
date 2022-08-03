@@ -17,7 +17,6 @@ jobs:
         id: changeset-comment
         with:
           issue-number: ${{ github.event.issue.number }}
-          comment-author: changeset-bot[bot]
           body-includes: Click here to learn what changesets are
       - name: Update comment
         if: steps.fc.outputs.comment-id == github.event.comment.id
