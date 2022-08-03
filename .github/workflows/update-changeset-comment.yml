@@ -25,4 +25,4 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
-            "[Click here to read our changeset guidelines](https://github.com/razorpay/frontend-universe/blob/master/CONTRIBUTING.md#-writing-a-changeset)"
+            [Click here to read our changeset guidelines](https://github.com/razorpay/frontend-universe/blob/master/CONTRIBUTING.md#-writing-a-changeset).
