@@ -16,7 +16,6 @@ jobs:
         id: fc
         with:
           issue-number: ${{ github.event.issue.pull_request.number }}
-          comment-author: changeset-bot
           body-includes: Click here to learn what changesets are
       - name: Update comment
         if: steps.fc.outputs.comment-id != ''
