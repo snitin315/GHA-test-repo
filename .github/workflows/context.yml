@@ -18,3 +18,11 @@ jobs:
     steps:
       - name: Github context
         run: echo '${{ toJSON(github) }}'
+      - name: Checkout Codebase
+        uses: actions/checkout@v2
+      - name: Setup Node v14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.19"
+      - name: run script
+        run: node a.js
