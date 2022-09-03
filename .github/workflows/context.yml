@@ -1,6 +1,7 @@
 name: Github Context Dump
 on:
   pull_request:
+  push:
   workflow_dispatch:
     inputs:
       tag:
