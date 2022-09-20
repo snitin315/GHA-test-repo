@@ -20,4 +20,4 @@ jobs:
       - name: Github context
         run: echo '${{ toJSON(github) }}'
       - name: run script
-        run: node a.js
+        run: node ./a.js
