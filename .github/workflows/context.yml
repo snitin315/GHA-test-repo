@@ -1,13 +1,7 @@
 name: Github Context Dump
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Tag name
-        required: true
-      isHotfixRelease:
-        description: Is this a hotfix release? (yes/no)
-        required: true
+  push:
+  pull_request:
 
 env:
   VERSION: xxxxx12345-new-version
