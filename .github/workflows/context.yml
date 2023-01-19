@@ -41,3 +41,7 @@ jobs:
           echo "VERSION='test'" >> $GITHUB_ENV
           echo $VERSION
           echo $VERSI
+      - name: Check value
+        run: |
+          echo $VERSION
+          echo $VERSI
