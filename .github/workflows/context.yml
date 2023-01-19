@@ -41,3 +41,9 @@ jobs:
           TAG: hotfix-${{ github.event.inputs.tag }}
       - name: Github context
         run: echo '${{ toJSON(github) }}'
+      - name: Update Version
+        run: |
+          echo "VERSI='test'" >> $GITHUB_ENV
+          echo "VERSION='test'" >> $GITHUB_ENV
+          echo $VERSION
+          echo $VERSI
