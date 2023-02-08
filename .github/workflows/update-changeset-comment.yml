@@ -11,6 +11,7 @@ jobs:
   run-on-comment:
     name: Comment changeset guidelines
     runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, format('Your devstack deployment is available at https://pr-{0}.dev.razorpay.in', github.event.issue.number))}}
     # if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, format('Your devstack deployment is available at https://pr-{0}.dev.razorpay.in', github.event.issue.number))}}
     # if: contains(github.event.comment.body, 'Your devstack deployment is available at') 
     steps:
