@@ -18,5 +18,5 @@ jobs:
       - name: Github context
         run: echo '${{ toJSON(github) }}'
       - name: Github context
-        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'Your devstack deployment is available at https://pr-${{ github.event.issue.number }}.in')}}
+        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, env.COMMENT_BODY)}}
         run: echo '${{ toJSON(github) }}'
