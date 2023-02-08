@@ -11,7 +11,7 @@ jobs:
   run-on-comment:
     name: Comment changeset guidelines
     runs-on: ubuntu-latest
-    if: github.event.issue.pull_request && github.event.comment.body == 'Your devstack deployment is available at https://pr-${{ github.event.issue.number }}.in'
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == 'Your devstack deployment is available at https://pr-${{ github.event.issue.number }}.in' }}
     # if: contains(github.event.comment.body, 'Your devstack deployment is available at') 
     steps:
       - name: run workflow
