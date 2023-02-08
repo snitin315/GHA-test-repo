@@ -1,10 +1,8 @@
 name: Comment changeset guidelines
-
 on:
   issue_comment:
     types:
       - created
-
 env:
   APP_NAME: my-app
   COMMENT_BODY: Your devstack deployment is available at https://${{ env.APP_NAME }}-pr-1746.dev.razorpay.in
