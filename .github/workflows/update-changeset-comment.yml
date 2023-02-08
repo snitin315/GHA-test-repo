@@ -11,7 +11,7 @@ jobs:
   run-on-comment:
     name: Comment changeset guidelines
     runs-on: ubuntu-latest
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, env.COMMENT_BODY)}}
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, ${{ env.COMMENT_BODY }})}}
     steps:
       - name: Github context
         run: echo '${{ toJSON(github) }}'
