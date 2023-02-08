@@ -4,25 +4,12 @@ on:
   issue_comment:
     types:
       - created
-      - edited
 
 jobs:
-  comment-changeset-guidelines:
+  run-on-comment:
     name: Comment changeset guidelines
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.pull_request }}
     steps:
-      - name: Find Comment
-        uses: peter-evans/find-comment@v2
-        id: changeset-comment
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          comment-author: changeset-bot[bot]
-          body-includes: Click here to learn what changesets are
-      - name: Update comment
-        if: steps.changeset-comment.outputs.comment-id == github.event.comment.id
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          comment-id: ${{ steps.changeset-comment.outputs.comment-id }}
-          body: |
-            [Click here to read our guidelines for writing a changeset](https://github.com/razorpay/frontend-universe/blob/master/CONTRIBUTING.md#-writing-a-changeset).
+      - name: Github context
+        run: echo '${{ toJSON(github) }}'
