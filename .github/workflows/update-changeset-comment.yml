@@ -11,13 +11,14 @@ jobs:
   run-on-comment:
     name: Comment changeset guidelines
     runs-on: ubuntu-latest
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, format('Your devstack deployment is available at https://pr-{0}.dev.razorpay.in', github.event.issue.number))}}
+    # if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, format('Your devstack deployment is available at https://pr-{0}.dev.razorpay.in', github.event.issue.number))}}
     # if: contains(github.event.comment.body, 'Your devstack deployment is available at') 
     steps:
       - name: run workflow
         run: echo "working"
       - name: Github context
-        run: echo '${{ toJSON(github) }}'
+        run: echo '${{ format('Your devstack deployment is available at https://pr-{0}.dev.razorpay.in', github.event.issue.number)) }}'
       - name: Github context
-        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, env.COMMENT_BODY)}}
+        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, format('Your devstack deployment is available at https://pr-{0}.dev.razorpay.in', github.event.issue.number))}}
+        # if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, env.COMMENT_BODY)}}
         run: echo '${{ toJSON(github) }}'
