@@ -6,12 +6,12 @@ on:
 env:
   APP_NAME: my-app
   COMMENT_BODY: Your devstack deployment is available at
-# join(github.event.issue.labels.*.name, ', ')
+
 jobs:
   run-on-comment:
     name: Comment changeset guidelines
     runs-on: ubuntu-latest
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, join(['Your devstack deployment is available at https://pr-', github.event.issue.number, '.dev.razorpay.in'], ''))}}
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, format('Your devstack deployment is available at https://pr-{0}.dev.razorpay.in', github.event.issue.number))}}
     # if: contains(github.event.comment.body, 'Your devstack deployment is available at') 
     steps:
       - name: run workflow
