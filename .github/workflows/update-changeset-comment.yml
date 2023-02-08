@@ -5,7 +5,7 @@ on:
       - created
 env:
   APP_NAME: my-app
-  COMMENT_BODY: Your devstack deployment is available at https://pr-1746.in
+  COMMENT_BODY: Your devstack deployment is available at https://pr-${{ github.event.issue.number }}.in
 
 jobs:
   run-on-comment:
