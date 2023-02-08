@@ -1,13 +1,7 @@
 name: Github Context Dump
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Tag name
-        required: true
-      isHotfixRelease:
-        description: Is this a hotfix release? (yes/no)
-        required: true
+  push:
+  pull_request:
 
 env:
   VERSION: xxxxx12345-new-version
@@ -41,3 +35,13 @@ jobs:
           TAG: hotfix-${{ github.event.inputs.tag }}
       - name: Github context
         run: echo '${{ toJSON(github) }}'
+      - name: Update Version
+        run: |
+          echo "VERSI='test'" >> $GITHUB_ENV
+          echo "VERSION='test'" >> $GITHUB_ENV
+          echo $VERSION
+          echo $VERSI
+      - name: Check value
+        run: |
+          echo $VERSION
+          echo $VERSI
