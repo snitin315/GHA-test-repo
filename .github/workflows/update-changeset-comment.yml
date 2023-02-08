@@ -16,5 +16,5 @@ jobs:
       - name: run workflow
         run: echo "working"
       - name: Github context
-        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '${{ env.COMMENT_BODY }}')}}
+        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'hello')}}
         run: echo '${{ toJSON(github) }}'
