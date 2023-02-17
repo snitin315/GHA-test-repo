@@ -40,4 +40,4 @@ jobs:
         env:
           TAG: hotfix-${{ github.event.inputs.tag }}
       - name: Github context
-        run: echo '${{ toJSON(github) }}'
+        run: echo '${{ toJSON(env) }}'
