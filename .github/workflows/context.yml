@@ -18,7 +18,7 @@ jobs:
           format: YYYYMMDD-HH
           utcOffset: "+08:00"
       - name: Set time
-        run: echo ::set-env name=WORKFLOW_START_TIME::$(date +%s) 
+        run: echo $(date +%s) 
       - name: Use current time
         env:
           TIME: "${{ steps.current-time.outputs.time }}"
