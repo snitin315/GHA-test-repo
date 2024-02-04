@@ -1,13 +1,10 @@
 name: Github Context Dump
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Tag name
-        required: true
-      isHotfixRelease:
-        description: Is this a hotfix release? (yes/no)
-        required: true
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - '**'
 
 env:
   VERSION: xxxxx12345-new-version
@@ -17,27 +14,5 @@ jobs:
   dump:
     runs-on: ubuntu-latest
     steps:
-      - name: Update experimental version of packages
-        if: "${{ github.event.inputs.isHotfixRelease != 'yes' }}"
-        run: echo "exp version"
-        env:
-          GITHUB_TOKEN: ${{ env.GITHUB_ACCESS_TOKEN }}
-          TAG: experimental-${{ github.event.inputs.tag }}
-      - name: Update hotfix version of packages
-        if: "${{ github.event.inputs.isHotfixRelease == 'yes' }}"
-        run: echo "hotfix version"
-        env:
-          GITHUB_TOKEN: ${{ env.GITHUB_ACCESS_TOKEN }}
-          TAG: hotfix-${{ github.event.inputs.tag }}
-      - name: Publish experimental packages
-        if: "${{ github.event.inputs.isHotfixRelease != 'yes' }}"
-        run: echo "exp publish"
-        env:
-          TAG: experimental-${{ github.event.inputs.tag }}
-      - name: Publish hotfix packages
-        if: "${{ github.event.inputs.isHotfixRelease == 'yes' }}"
-        run: echo "hotfix publish"
-        env:
-          TAG: hotfix-${{ github.event.inputs.tag }}
       - name: Github context
-        run: echo '${{ toJSON(env) }}'
+        run: echo '${{ toJSON(github) }}'
