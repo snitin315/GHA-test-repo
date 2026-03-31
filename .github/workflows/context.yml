@@ -15,4 +15,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Github context
-        run: echo '${{ toJSON(github) }}'
+        run: echo '${{ toJSON(github.ref_name) }}'
